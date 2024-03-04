@@ -77,4 +77,5 @@ dependencies {
     //Glide
     val glideVersion = "4.15.1"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
+    annotationProcessor ("com.github.bumptech.glide:compiler:$glideVersion")
 }

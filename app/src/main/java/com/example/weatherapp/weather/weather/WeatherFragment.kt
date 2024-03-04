@@ -1,7 +1,9 @@
 package com.example.weatherapp.weather.weather
 
-import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.example.rawgapp.common.mvp.BaseMvpFragment
 import com.example.rawgapp.utils.extensions.viewbinding.viewBinding
 import com.example.weatherapp.R
@@ -22,17 +24,26 @@ class WeatherFragment :
     override val presenter: WeatherContract.Presenter by inject()
     private val binding: FragmentWeatherBinding by viewBinding()
 
-    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonSearch.setOnClickListener {
+            val cityName = binding.editTextCity.text.toString()
+            presenter.getCityWeather(cityName)
+        }
+    }
+
     override fun showCityWeather(data: WeatherModel) {
         with(binding) {
-            textViewCity.text =
-                data.name?.replaceFirstChar { it.uppercase() }
+            textViewCity.text = data.name?.replaceFirstChar { it.uppercase() }
             textViewTemp.text = tempDescription(data)
-
             textViewClouds.text =
                 data.weather?.get(0)?.description.toString()
-            Timber.i("______________${textViewTemp.text}")
-
+            data.weather?.get(0)?.icon?.let { iconUrl ->
+                Glide.with(this@WeatherFragment)
+                    .load("https://openweathermap.org/img/wn/$iconUrl.png")
+                    .into(imageViewWeather)
+            }
+            textViewPressure.text = pressureDescription(data)
         }
     }
 
@@ -50,6 +61,15 @@ class WeatherFragment :
         return buildString {
             append(tempData)
                 .append(descriptionOfTemp)
+        }
+    }
+
+    private fun pressureDescription(data: WeatherModel): String {
+        val pressureData = data.main?.pressure
+        val descriptionOfPressure = getString(R.string.pressure_hpa)
+        return buildString {
+            append(pressureData)
+                .append(descriptionOfPressure)
         }
     }
 }

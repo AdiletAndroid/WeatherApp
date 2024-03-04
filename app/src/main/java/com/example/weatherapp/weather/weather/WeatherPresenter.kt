@@ -14,15 +14,17 @@ class WeatherPresenter(
         launch {
             try {
                 view?.showLoading(isLoading = true)
-                val weather = interactor.getWeather()
+                val weather = interactor.getWeather(cityName) // Передаем название города
                 view?.showCityWeather(weather)
             } catch (e: CancellationException) {
                 Timber.e(e.message)
             } catch (t: Throwable) {
+                view?.showError("Error: ${t.message}") // Показываем сообщение об ошибке
                 Timber.e(t.message)
             } finally {
                 view?.showLoading(isLoading = false)
             }
         }
     }
+
 }

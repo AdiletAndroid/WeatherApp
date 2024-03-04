@@ -7,8 +7,9 @@ import com.example.weatherapp.weather.model.WeatherModel
 class WeatherRemoteRepository(
     private val api: WeatherApi
 ) : WeatherRepository {
-    override suspend fun getWeather(): WeatherModel {
-        val response = api.getWeather("q")
+    override suspend fun getWeather(cityName: String): WeatherModel {
+        val response = api.getWeather(cityName)
         return WeatherDataConverter.fromNetwork(response)
     }
+
 }
