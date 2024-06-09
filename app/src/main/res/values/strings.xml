@@ -4,7 +4,7 @@
     <string name="weather_forecast">WEATHER FORECAST</string>
     <string name="celsius"> °C</string>
     <string name="button_search">Search</string>
-    <string name="hint_enter_city_name">Enter city name</string>
+    <string name="hint_enter_city_name">Enter city</string>
     <string name="city_name">City</string>
     <string name="temp">Temp</string>
     <string name="clouds">Clouds</string>
